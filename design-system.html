@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MedFlow — Design System</title>
+  <meta name="description" content="Design System da MedFlow: cores, tipografia, espaçamento, botões, inputs, cards, chat e status." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <style>
+    .ds { max-width: 1080px; margin: 0 auto; padding: 32px 24px 72px; }
+
+    .ds__top {
+      position: sticky; top: 0; z-index: 30;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      flex-wrap: wrap; padding: 16px; margin: -32px -24px 0;
+      background: rgba(248, 250, 252, 0.94); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .ds__nav { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ds__nav a {
+      display: inline-flex; align-items: center; min-height: 40px; padding: 0 14px;
+      border: 1px solid var(--color-border-strong); border-radius: 999px;
+      background: var(--color-surface); color: var(--color-dark);
+      font-size: 14px; font-weight: 500; text-decoration: none;
+    }
+    .ds__nav a:hover { border-color: var(--color-primary); background: var(--color-primary-soft); }
+
+    .ds__hero { padding: 48px 0 8px; max-width: 68ch; }
+    .ds__hero h1 { margin-bottom: 12px; }
+    .ds__hero p { color: var(--color-text-secondary); font-size: 18px; }
+
+    .ds section { margin-top: 48px; scroll-margin-top: 88px; }
+    .ds section > h2 { margin-bottom: 4px; }
+    .ds section > .ds__desc { color: var(--color-text-secondary); font-size: 14px; margin-bottom: 20px; }
+
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; }
+    .swatch {
+      display: flex; flex-direction: column; gap: 10px; padding: 12px;
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: 12px; box-shadow: var(--shadow-card); cursor: copy; text-align: left;
+      transition: border-color 160ms, transform 160ms;
+    }
+    .swatch:hover { border-color: var(--color-primary); transform: translateY(-1px); }
+    .swatch__color { height: 64px; border-radius: 8px; border: 1px solid rgba(15, 23, 42, 0.08); }
+    .swatch__name { font-size: 14px; font-weight: 600; }
+    .swatch__role { font-size: 12px; color: var(--color-text-secondary); }
+    .swatch__hex { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; color: var(--color-dark); }
+
+    .type-row {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 24px;
+      padding: 20px 0; border-bottom: 1px solid var(--color-border); flex-wrap: wrap;
+    }
+    .type-row:last-child { border-bottom: none; }
+    .type-meta { font-size: 12px; color: var(--color-text-secondary); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+    .space-row { display: flex; align-items: center; gap: 16px; padding: 8px 0; }
+    .space-bar { height: 24px; background: var(--color-primary); border-radius: 4px; }
+    .space-label { font-size: 13px; font-weight: 600; min-width: 72px; font-variant-numeric: tabular-nums; }
+
+    .demo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+    .demo {
+      padding: 20px; background: var(--color-surface);
+      border: 1px solid var(--color-border); border-radius: 12px; box-shadow: var(--shadow-card);
+    }
+    .demo__label {
+      font-size: 12px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--color-text-secondary); margin-bottom: 12px;
+    }
+    .demo__stack { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+    .demo__row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    .checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+    .check-item {
+      display: flex; gap: 10px; align-items: flex-start; padding: 16px;
+      background: var(--color-surface); border: 1px solid var(--color-border);
+      border-radius: 12px; font-size: 14px;
+    }
+    .check-item svg { width: 18px; height: 18px; color: var(--color-support-text); flex: none; margin-top: 2px; }
+    .check-item strong { display: block; font-weight: 600; }
+    .check-item span { color: var(--color-text-secondary); font-size: 13px; }
+
+    .chat-demo { display: flex; flex-direction: column; gap: 16px; }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Pular para o conteúdo</a>
+
+  <div class="ds">
+    <header class="ds__top">
+      <a class="logo logo--sm" href="index.html">
+        <span class="logo__mark" data-icon="heart-pulse" data-size="16" aria-hidden="true"></span>
+        <span class="logo__text">Med<span>Flow</span></span>
+      </a>
+      <nav class="ds__nav" aria-label="Seções do design system">
+        <a href="#cores">Cores</a>
+        <a href="#tipografia">Tipografia</a>
+        <a href="#espacamento">Espaçamento</a>
+        <a href="#botoes">Botões</a>
+        <a href="#inputs">Inputs</a>
+        <a href="#status">Status</a>
+        <a href="#chat">Chat</a>
+        <a href="#acessibilidade">Acessibilidade</a>
+      </nav>
+      <div class="demo__row">
+        <a class="btn btn--secondary btn--sm" href="patient.html">Paciente</a>
+        <a class="btn btn--secondary btn--sm" href="dashboard.html">Equipe</a>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="ds__hero">
+        <h1 class="h1">Design System MedFlow</h1>
+        <p>
+          Uma linguagem visual só para o paciente (mobile) e para a equipe (desktop):
+          confiável, acolhedora e sem excesso de azul. Clique em uma cor para copiar o hex.
+        </p>
+      </section>
+
+      <!-- Cores -->
+      <section id="cores">
+        <h2 class="h2">Cores</h2>
+        <p class="ds__desc">Identidade hospitalar moderna. Branco e cinza predominam; cor com função.</p>
+        <div class="swatches" id="swatches">
+          <button class="swatch" type="button" data-hex="#2563EB">
+            <span class="swatch__color" style="background:#2563EB"></span>
+            <span class="swatch__name">Azul hospitalar</span>
+            <span class="swatch__role">Primária · ações principais</span>
+            <span class="swatch__hex">#2563EB</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#1E3A5F">
+            <span class="swatch__color" style="background:#1E3A5F"></span>
+            <span class="swatch__name">Azul escuro</span>
+            <span class="swatch__role">Títulos de marca · barra lateral</span>
+            <span class="swatch__hex">#1E3A5F</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#16A34A">
+            <span class="swatch__color" style="background:#16A34A"></span>
+            <span class="swatch__name">Verde apoio</span>
+            <span class="swatch__role">Resolvido · confirmado</span>
+            <span class="swatch__hex">#16A34A</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#F8FAFC">
+            <span class="swatch__color" style="background:#F8FAFC"></span>
+            <span class="swatch__name">Fundo</span>
+            <span class="swatch__role">Página</span>
+            <span class="swatch__hex">#F8FAFC</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#FFFFFF">
+            <span class="swatch__color" style="background:#FFFFFF"></span>
+            <span class="swatch__name">Superfície</span>
+            <span class="swatch__role">Cards · formulários</span>
+            <span class="swatch__hex">#FFFFFF</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#0F172A">
+            <span class="swatch__color" style="background:#0F172A"></span>
+            <span class="swatch__name">Texto principal</span>
+            <span class="swatch__role">Títulos e corpo</span>
+            <span class="swatch__hex">#0F172A</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#64748B">
+            <span class="swatch__color" style="background:#64748B"></span>
+            <span class="swatch__name">Texto secundário</span>
+            <span class="swatch__role">Apoio · legendas</span>
+            <span class="swatch__hex">#64748B</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#DC2626">
+            <span class="swatch__color" style="background:#DC2626"></span>
+            <span class="swatch__name">Erro</span>
+            <span class="swatch__role">Validação · ação necessária</span>
+            <span class="swatch__hex">#DC2626</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#F59E0B">
+            <span class="swatch__color" style="background:#F59E0B"></span>
+            <span class="swatch__name">Alerta</span>
+            <span class="swatch__role">Aguardando atendimento</span>
+            <span class="swatch__hex">#F59E0B</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#E2E8F0">
+            <span class="swatch__color" style="background:#E2E8F0"></span>
+            <span class="swatch__name">Borda</span>
+            <span class="swatch__role">Cards e divisórios</span>
+            <span class="swatch__hex">#E2E8F0</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#F1F5F9">
+            <span class="swatch__color" style="background:#F1F5F9"></span>
+            <span class="swatch__name">Fundo da IA</span>
+            <span class="swatch__role">Mensagens recebidas</span>
+            <span class="swatch__hex">#F1F5F9</span>
+          </button>
+          <button class="swatch" type="button" data-hex="#CBD5E1">
+            <span class="swatch__color" style="background:#CBD5E1"></span>
+            <span class="swatch__name">Borda forte</span>
+            <span class="swatch__role">Botão secundário · input</span>
+            <span class="swatch__hex">#CBD5E1</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Tipografia -->
+      <section id="tipografia">
+        <h2 class="h2">Tipografia</h2>
+        <p class="ds__desc">Inter — sans-serif moderna e altamente legível. Títulos caem proporcionalmente no mobile.</p>
+        <div class="card card--lg">
+          <div class="type-row">
+            <span class="h1">Título principal</span>
+            <span class="type-meta">H1 · 32px · 700</span>
+          </div>
+          <div class="type-row">
+            <span class="h2">Título de seção</span>
+            <span class="type-meta">H2 · 24px · 700</span>
+          </div>
+          <div class="type-row">
+            <span class="h3">Subtítulo de bloco</span>
+            <span class="type-meta">H3 · 20px · 600</span>
+          </div>
+          <div class="type-row">
+            <span class="body">Corpo de texto — usamos linguagem humana, calma e acolhedora.</span>
+            <span class="type-meta">Body · 16px · 400</span>
+          </div>
+          <div class="type-row">
+            <span class="small text-secondary">Texto de apoio, legendas e ajudas de campo.</span>
+            <span class="type-meta">Small · 14px · 400</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Espaçamento -->
+      <section id="espacamento">
+        <h2 class="h2">Espaçamento</h2>
+        <p class="ds__desc">Múltiplos de 4px. Priorize espaço generoso entre elementos.</p>
+        <div class="card card--lg">
+          <div class="space-row"><span class="space-label">4px</span><span class="space-bar" style="width:4px"></span></div>
+          <div class="space-row"><span class="space-label">8px</span><span class="space-bar" style="width:8px"></span></div>
+          <div class="space-row"><span class="space-label">12px</span><span class="space-bar" style="width:12px"></span></div>
+          <div class="space-row"><span class="space-label">16px</span><span class="space-bar" style="width:16px"></span></div>
+          <div class="space-row"><span class="space-label">24px</span><span class="space-bar" style="width:24px"></span></div>
+          <div class="space-row"><span class="space-label">32px</span><span class="space-bar" style="width:32px"></span></div>
+          <div class="space-row"><span class="space-label">48px</span><span class="space-bar" style="width:48px"></span></div>
+        </div>
+      </section>
+
+      <!-- Botões -->
+      <section id="botoes">
+        <h2 class="h2">Botões</h2>
+        <p class="ds__desc">Um botão primário por tela. Altura mínima de 48px e área de toque confortável.</p>
+        <div class="demo-grid">
+          <div class="demo">
+            <p class="demo__label">Primário e secundário</p>
+            <div class="demo__stack">
+              <button class="btn btn--primary">Começar atendimento</button>
+              <button class="btn btn--secondary">Voltar</button>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Estados</p>
+            <div class="demo__stack">
+              <button class="btn btn--primary">Normal</button>
+              <button class="btn btn--primary" disabled>Desabilitado</button>
+              <button class="btn btn--primary" id="demo-loading">Carregando</button>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Tamanhos e variações</p>
+            <div class="demo__stack">
+              <button class="btn btn--primary btn--lg">Grande · 56px</button>
+              <button class="btn btn--secondary btn--sm">Pequeno · 40px</button>
+              <button class="btn-link">Link discreto · Preciso de ajuda</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Inputs -->
+      <section id="inputs">
+        <h2 class="h2">Inputs</h2>
+        <p class="ds__desc">Label sempre visível. Placeholder só como exemplo. Estados: default, foco, erro, desabilitado e sucesso.</p>
+        <div class="demo-grid">
+          <div class="demo">
+            <p class="demo__label">Default</p>
+            <div class="field">
+              <label class="field__label" for="ds-nome">Nome completo</label>
+              <input class="input" id="ds-nome" type="text" placeholder="Ex.: João da Silva" />
+              <p class="field__help">Use nome e sobrenome.</p>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Foco</p>
+            <div class="field">
+              <label class="field__label" for="ds-foco">Telefone</label>
+              <input class="input input--preview-focus" id="ds-foco" type="tel" value="(11) 98765-4321" />
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Erro</p>
+            <div class="field field--error">
+              <label class="field__label" for="ds-cpf">CPF <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="input" id="ds-cpf" type="text" value="123.45" aria-invalid="true" aria-describedby="ds-cpf-err" />
+              <p class="field__error" id="ds-cpf-err">
+                <span data-icon="alert" data-size="16"></span>
+                <span>Digite um CPF válido (11 números).</span>
+              </p>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Desabilitado</p>
+            <div class="field">
+              <label class="field__label" for="ds-dis">Convênio</label>
+              <input class="input" id="ds-dis" type="text" value="Preenchido pela equipe" disabled />
+              <p class="field__help">Editável apenas pela recepção.</p>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Sucesso</p>
+            <div class="field field--success">
+              <label class="field__label" for="ds-ok">Data de nascimento</label>
+              <input class="input" id="ds-ok" type="text" value="14/03/1978" />
+              <p class="field__success">
+                <span data-icon="check-circle" data-size="16"></span>
+                <span>Informação válida.</span>
+              </p>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Seleção</p>
+            <div class="field">
+              <label class="field__label" for="ds-sel">Motivo do atendimento</label>
+              <select class="select" id="ds-sel">
+                <option>Consulta</option>
+                <option>Exame</option>
+                <option>Agendamento</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Status -->
+      <section id="status">
+        <h2 class="h2">Status</h2>
+        <p class="ds__desc">Sempre texto junto com a cor — nunca depender só de diferenciação visual.</p>
+        <div class="demo">
+          <div class="demo__row">
+            <span class="badge badge--green"><span data-icon="check-circle" data-size="14"></span>Resolvido</span>
+            <span class="badge badge--amber"><span data-icon="clock" data-size="14"></span>Aguardando atendimento</span>
+            <span class="badge badge--red"><span data-icon="alert" data-size="14"></span>Ação necessária</span>
+            <span class="badge badge--blue"><span data-icon="user-check" data-size="14"></span>Em andamento</span>
+            <span class="badge badge--gray"><span data-icon="info" data-size="14"></span>Sem informação</span>
+          </div>
+        </div>
+
+        <div class="demo-grid" style="margin-top:16px">
+          <div class="demo">
+            <p class="demo__label">Cards</p>
+            <div class="card">
+              <p class="card__title">Consulta</p>
+              <p class="card__subtitle" style="margin-top:4px">Borda #E2E8F0 · raio 12px · sombra sutil</p>
+            </div>
+          </div>
+          <div class="demo">
+            <p class="demo__label">Indicador (KPI)</p>
+            <div class="stat">
+              <div class="stat__head">
+                <span class="stat__label">Aguardando atendente</span>
+                <span class="stat__icon stat__icon--amber" data-icon="clock" data-size="22"></span>
+              </div>
+              <p class="stat__value">3</p>
+              <p class="stat__meta">3 pessoas aguardando na recepção</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Chat -->
+      <section id="chat">
+        <h2 class="h2">Chat</h2>
+        <p class="ds__desc">IA à esquerda em cinza claro, paciente à direita em azul. Respostas rápidas abaixo da pergunta.</p>
+        <div class="card card--lg">
+          <div class="chat-demo">
+            <div class="msg msg--ai">
+              <span class="avatar avatar--ai msg__avatar" data-icon="sparkles" data-size="18" aria-hidden="true"></span>
+              <div class="msg__body">
+                <div class="bubble bubble--ai">Você possui um pedido médico?</div>
+                <div class="quick-replies">
+                  <button class="quick-reply">Sim</button>
+                  <button class="quick-reply">Não</button>
+                </div>
+              </div>
+            </div>
+            <div class="msg msg--user">
+              <div class="msg__body">
+                <div class="bubble bubble--user">Sim</div>
+              </div>
+            </div>
+            <div class="msg msg--ai">
+              <span class="avatar avatar--ai msg__avatar" data-icon="sparkles" data-size="18" aria-hidden="true"></span>
+              <div class="msg__body">
+                <div class="bubble bubble--ai">Ótimo! Qual exame você irá realizar?</div>
+              </div>
+            </div>
+          </div>
+          <hr class="divider" />
+          <div class="chat-input" style="position:static;padding:0">
+            <label class="visually-hidden" for="ds-chat">Escreva sua resposta</label>
+            <input class="input" id="ds-chat" type="text" placeholder="Escreva sua resposta" />
+            <button class="btn-icon chat-input__send" aria-label="Enviar">
+              <span data-icon="send" data-size="20"></span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Acessibilidade -->
+      <section id="acessibilidade">
+        <h2 class="h2">Acessibilidade e UX</h2>
+        <p class="ds__desc">Decisões que valem para todas as telas.</p>
+        <div class="checklist">
+          <div class="check-item">
+            <span data-icon="check-circle" data-size="18"></span>
+            <p><strong>Contraste adequado</strong><span>Texto secundário sobre branco ≥ 4.5:1; nunca cor sozinha.</span></p>
+          </div>
+          <div class="check-item">
+            <span data-icon="check-circle" data-size="18"></span>
+            <p><strong>Botões grandes</strong><span>Mínimo 48px de altura e foco visível com anel azul.</span></p>
+          </div>
+          <div class="check-item">
+            <span data-icon="check-circle" data-size="18"></span>
+            <p><strong>Linguagem simples</strong><span>Sem termos técnicos; frases curtas e acolhedoras.</span></p>
+          </div>
+          <div class="check-item">
+            <span data-icon="check-circle" data-size="18"></span>
+            <p><strong>Leitores de tela</strong><span>Labels, aria-live no chat, progresso com valor e texto.</span></p>
+          </div>
+          <div class="check-item">
+            <span data-icon="check-circle" data-size="18"></span>
+            <p><strong>Uma tarefa por tela</strong><span>Poucas informações e próximo passo sempre explícito.</span></p>
+          </div>
+          <div class="check-item">
+            <span data-icon="check-circle" data-size="18"></span>
+            <p><strong>Nunca deixar no escuro</strong><span>Status, número do atendimento e encaminhamento humano à vista.</span></p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+
+  <script src="assets/js/icons.js"></script>
+  <script>
+    // Copiar hex da cor ao clicar
+    document.getElementById("swatches").addEventListener("click", (e) => {
+      const sw = e.target.closest(".swatch");
+      if (!sw) return;
+      const hex = sw.dataset.hex;
+      const done = () => {
+        const region = document.getElementById("toast-region");
+        const el = document.createElement("div");
+        el.className = "toast toast--success";
+        el.innerHTML = '<span data-icon="check-circle" data-size="18"></span><span><span class="toast__title"></span></span>';
+        el.querySelector(".toast__title").textContent = "Cor copiada: " + hex;
+        region.appendChild(el);
+        Icons.hydrate(el);
+        setTimeout(() => el.remove(), 3200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(hex).then(done).catch(done);
+      } else done();
+    });
+
+    // Demonstração do estado de carregamento
+    document.getElementById("demo-loading").addEventListener("click", function () {
+      const btn = this;
+      if (btn.dataset.busy === "1") return;
+      const label = btn.textContent;
+      btn.dataset.busy = "1";
+      btn.innerHTML = '<span class="spinner"></span> Enviando…';
+      setTimeout(() => {
+        btn.textContent = label;
+        btn.dataset.busy = "0";
+      }, 1800);
+    });
+  </script>
+</body>
+</html>

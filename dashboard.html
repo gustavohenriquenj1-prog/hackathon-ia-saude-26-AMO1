@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MedFlow — Painel da recepção</title>
+  <meta name="description" content="Painel da equipe: atendimentos organizados pela IA, status e dados coletados." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+</head>
+<body class="dash-body">
+  <a class="skip-link" href="#dash-main">Pular para o conteúdo</a>
+
+  <div class="dash">
+    <!-- Barra lateral ---------------------------------------------------- -->
+    <aside class="sidebar" aria-label="Navegação principal">
+      <a class="logo logo--light" href="index.html">
+        <span class="logo__mark" data-icon="heart-pulse" data-size="20" aria-hidden="true"></span>
+        <span class="logo__text">Med<span>Flow</span></span>
+      </a>
+
+      <nav class="sidebar__nav">
+        <button type="button" class="nav-item is-active" data-nav="top" aria-current="page">
+          <span data-icon="layout-dashboard" data-size="20" aria-hidden="true"></span>
+          <span>Visão geral</span>
+        </button>
+        <button type="button" class="nav-item" data-nav="lista">
+          <span data-icon="list" data-size="20" aria-hidden="true"></span>
+          <span>Atendimentos</span>
+          <span class="nav-item__count" id="nav-count">0</span>
+        </button>
+        <button type="button" class="nav-item" data-nav="soon">
+          <span data-icon="users" data-size="20" aria-hidden="true"></span>
+          <span>Equipe</span>
+        </button>
+        <button type="button" class="nav-item" data-nav="soon">
+          <span data-icon="settings" data-size="20" aria-hidden="true"></span>
+          <span>Configurações</span>
+        </button>
+      </nav>
+
+      <div class="sidebar__user">
+        <span class="avatar" aria-hidden="true">CR</span>
+        <span class="sidebar__user-text">
+          <strong>Camila Rocha</strong>
+          <span>Recepção · Plantão A</span>
+        </span>
+      </div>
+    </aside>
+
+    <!-- Conteúdo ---------------------------------------------------------- -->
+    <div class="dash__main">
+      <header class="topbar">
+        <div class="topbar__brand" aria-hidden="true">
+          <a class="logo logo--sm" href="index.html">
+            <span class="logo__mark" data-icon="heart-pulse" data-size="16"></span>
+            <span class="logo__text">Med<span>Flow</span></span>
+          </a>
+        </div>
+
+        <div class="topbar__title">
+          <h1 class="h2">Recepção</h1>
+          <p class="small text-secondary" id="today-label">—</p>
+        </div>
+
+        <div class="topbar__actions">
+          <div class="search">
+            <span class="search__icon" data-icon="search" data-size="18" aria-hidden="true"></span>
+            <label class="visually-hidden" for="search-input">Buscar paciente</label>
+            <input class="input search__input" id="search-input" type="search"
+                   placeholder="Buscar por nome, motivo ou nº" autocomplete="off" />
+          </div>
+          <button type="button" class="btn-icon" id="btn-refresh" aria-label="Atualizar lista" title="Atualizar lista">
+            <span data-icon="refresh" data-size="20" aria-hidden="true"></span>
+          </button>
+          <a class="btn btn--secondary btn--sm topbar__link" href="patient.html">
+            <span data-icon="external-link" data-size="16" aria-hidden="true"></span>
+            Ver experiência do paciente
+          </a>
+        </div>
+      </header>
+
+      <main id="dash-main" tabindex="-1" class="dash__content">
+        <!-- Indicadores --------------------------------------------------- -->
+        <section class="kpi-grid" aria-label="Indicadores do dia">
+          <article class="stat">
+            <div class="stat__head">
+              <span class="stat__label">Novos atendimentos</span>
+              <span class="stat__icon stat__icon--blue" data-icon="inbox" data-size="22" aria-hidden="true"></span>
+            </div>
+            <p class="stat__value" id="kpi-total">0</p>
+            <p class="stat__meta">recebidos hoje, pelas duas vias</p>
+          </article>
+
+          <article class="stat">
+            <div class="stat__head">
+              <span class="stat__label">Aguardando atendente</span>
+              <span class="stat__icon stat__icon--amber" data-icon="clock" data-size="22" aria-hidden="true"></span>
+            </div>
+            <p class="stat__value" id="kpi-waiting">0</p>
+            <p class="stat__meta" id="kpi-waiting-meta">na fila da recepção</p>
+          </article>
+
+          <article class="stat">
+            <div class="stat__head">
+              <span class="stat__label">Resolvidos pela IA</span>
+              <span class="stat__icon stat__icon--green" data-icon="sparkles" data-size="22" aria-hidden="true"></span>
+            </div>
+            <p class="stat__value" id="kpi-ai">0</p>
+            <p class="stat__meta">sem precisar de retrabalho</p>
+          </article>
+        </section>
+
+        <!-- Lista ---------------------------------------------------------- -->
+        <section class="panel" id="secao-lista" aria-labelledby="lista-title">
+          <div class="panel__head">
+            <div>
+              <h2 class="h3" id="lista-title">Atendimentos</h2>
+              <p class="small text-secondary live">
+                <span class="live__dot" aria-hidden="true"></span>
+                Atualizado agora · clique em um paciente para ver os dados coletados
+              </p>
+            </div>
+            <div class="chips" role="group" aria-label="Filtrar por status" id="status-chips">
+              <button type="button" class="chip is-active" data-filter="todos" aria-pressed="true">
+                Todos <span class="chip__count" data-count="todos">0</span>
+              </button>
+              <button type="button" class="chip" data-filter="aguardando" aria-pressed="false">
+                Aguardando <span class="chip__count" data-count="aguardando">0</span>
+              </button>
+              <button type="button" class="chip" data-filter="em_andamento" aria-pressed="false">
+                Em atendimento <span class="chip__count" data-count="em_andamento">0</span>
+              </button>
+              <button type="button" class="chip" data-filter="resolvido" aria-pressed="false">
+                Resolvidos <span class="chip__count" data-count="resolvido">0</span>
+              </button>
+              <button type="button" class="chip" data-filter="acao_necessaria" aria-pressed="false">
+                Ação necessária <span class="chip__count" data-count="acao_necessaria">0</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table" id="patients-table">
+              <caption class="visually-hidden">
+                Lista de atendimentos: paciente, motivo, convênio, status e horário
+              </caption>
+              <thead>
+                <tr>
+                  <th scope="col">Paciente</th>
+                  <th scope="col">Motivo</th>
+                  <th scope="col">Convênio</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" class="col-time">Horário</th>
+                </tr>
+              </thead>
+              <tbody id="patients-body"></tbody>
+            </table>
+
+            <div class="empty" id="empty-state" hidden>
+              <span class="empty__icon" data-icon="search" data-size="26" aria-hidden="true"></span>
+              <p class="empty__title">Nenhum atendimento encontrado</p>
+              <p class="empty__text">Tente outro filtro ou limpe a busca para ver a lista completa.</p>
+              <button type="button" class="btn btn--secondary btn--sm" id="btn-clear-filters">Limpar filtros</button>
+            </div>
+          </div>
+        </section>
+
+        <p class="footnote small text-secondary">
+          A MedFlow organiza informações e orienta o paciente. Decisões clínicas e diagnósticos
+          são sempre de profissionais de saúde.
+        </p>
+      </main>
+    </div>
+  </div>
+
+  <!-- Painel de detalhe ------------------------------------------------- -->
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-name" hidden>
+    <header class="drawer__head">
+      <div class="drawer__head-main">
+        <div class="drawer__head-top">
+          <p class="small text-secondary" id="drawer-id">—</p>
+          <span id="drawer-badge"></span>
+        </div>
+        <h2 class="h3" id="drawer-name" tabindex="-1">—</h2>
+        <p class="small text-secondary" id="drawer-sub">—</p>
+      </div>
+      <button type="button" class="btn-icon" id="drawer-close" aria-label="Fechar detalhes">
+        <span data-icon="close" data-size="20" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <div class="drawer__body">
+      <section aria-labelledby="dados-title">
+        <h3 class="drawer__section-title" id="dados-title">Dados coletados</h3>
+        <div class="card card--flat">
+          <dl class="kv" id="drawer-kv"></dl>
+        </div>
+      </section>
+
+      <section aria-labelledby="docs-title" id="drawer-docs-section">
+        <h3 class="drawer__section-title" id="docs-title">Documentos</h3>
+        <div class="card card--flat">
+          <ul class="doc-list" id="drawer-docs"></ul>
+        </div>
+      </section>
+
+      <section aria-labelledby="resumo-title">
+        <h3 class="drawer__section-title" id="resumo-title">Resumo da conversa</h3>
+        <div class="card card--flat ai-summary">
+          <p class="ai-summary__tag">
+            <span data-icon="sparkles" data-size="14" aria-hidden="true"></span>
+            Gerado pela IA · não é diagnóstico
+          </p>
+          <p class="small" id="drawer-resumo">—</p>
+        </div>
+      </section>
+
+      <section aria-labelledby="conv-title">
+        <h3 class="drawer__section-title" id="conv-title">Conversa completa</h3>
+        <details class="transcript" id="drawer-transcript">
+          <summary>
+            <span data-icon="message-circle" data-size="18" aria-hidden="true"></span>
+            Ver mensagens
+          </summary>
+          <div class="transcript__log" id="drawer-messages"></div>
+        </details>
+      </section>
+
+      <div class="note note--info" id="drawer-eta" hidden>
+        <span data-icon="clock" data-size="18" aria-hidden="true"></span>
+        <span id="drawer-eta-text"></span>
+      </div>
+    </div>
+
+    <footer class="drawer__footer">
+      <div class="drawer__actions" id="drawer-actions">
+        <button type="button" class="btn btn--primary btn--block" id="btn-assume">
+          <span data-icon="user-check" data-size="20" aria-hidden="true"></span>
+          Assumir atendimento
+        </button>
+        <div class="drawer__actions-row">
+          <button type="button" class="btn btn--secondary" id="btn-forward">
+            <span data-icon="corner-up-right" data-size="20" aria-hidden="true"></span>
+            Encaminhar
+          </button>
+          <button type="button" class="btn btn--secondary" id="btn-finish">
+            <span data-icon="check-circle" data-size="20" aria-hidden="true"></span>
+            Finalizar atendimento
+          </button>
+        </div>
+      </div>
+      <p class="drawer__done small" id="drawer-done" hidden>
+        <span data-icon="check-circle" data-size="16" aria-hidden="true"></span>
+        Atendimento finalizado. Não há ações pendentes.
+      </p>
+    </footer>
+  </aside>
+
+  <!-- Modal de encaminhamento ------------------------------------------- -->
+  <div class="modal" id="forward-modal" hidden role="dialog" aria-modal="true" aria-labelledby="forward-title">
+    <div class="modal__backdrop" data-close-forward></div>
+    <div class="modal__panel">
+      <div class="modal__head">
+        <div>
+          <h2 class="modal__title" id="forward-title">Encaminhar atendimento</h2>
+          <p class="modal__desc">Escolha para onde este caso segue. O paciente continua com o mesmo número.</p>
+        </div>
+        <button type="button" class="btn-icon" data-close-forward aria-label="Fechar">
+          <span data-icon="close" data-size="20" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="stack-8" role="radiogroup" aria-labelledby="forward-title" id="forward-options">
+        <button type="button" class="option" role="radio" aria-checked="false" data-sector="Laboratório">
+          <span class="option__icon" data-icon="flask" data-size="18" aria-hidden="true"></span>
+          <span class="option__text">Laboratório<span class="option__hint">Exames e preparos</span></span>
+        </button>
+        <button type="button" class="option" role="radio" aria-checked="false" data-sector="Agendamento">
+          <span class="option__icon" data-icon="calendar" data-size="18" aria-hidden="true"></span>
+          <span class="option__text">Agendamento<span class="option__hint">Datas e horários</span></span>
+        </button>
+        <button type="button" class="option" role="radio" aria-checked="false" data-sector="Convênios">
+          <span class="option__icon" data-icon="credit-card" data-size="18" aria-hidden="true"></span>
+          <span class="option__text">Convênios<span class="option__hint">Cobertura e autorizações</span></span>
+        </button>
+        <button type="button" class="option" role="radio" aria-checked="false" data-sector="Médico de plantão">
+          <span class="option__icon" data-icon="stethoscope" data-size="18" aria-hidden="true"></span>
+          <span class="option__text">Médico de plantão<span class="option__hint">Quando houver necessidade técnica</span></span>
+        </button>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--primary btn--block" id="btn-forward-confirm" disabled>
+          Confirmar encaminhamento
+        </button>
+        <button type="button" class="btn btn--secondary btn--block" data-close-forward>Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>

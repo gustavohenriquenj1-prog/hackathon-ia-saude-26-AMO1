@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#2563EB" />
+  <title>MedFlow — Atendimento inteligente</title>
+  <meta name="description" content="Recepção digital com IA: informe seus dados e o motivo da visita em poucos minutos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/tokens.css" />
+  <link rel="stylesheet" href="assets/css/components.css" />
+  <link rel="stylesheet" href="assets/css/patient.css" />
+</head>
+<body class="patient-body">
+  <a class="skip-link" href="#main" data-i18n="common.skip">Pular para o conteúdo</a>
+
+  <div class="patient-app">
+    <!-- Cabeçalho ------------------------------------------------------- -->
+    <header class="app-header">
+      <div class="logo" aria-label="MedFlow">
+        <span class="logo__mark" data-icon="heart-pulse" data-size="20" aria-hidden="true"></span>
+        <span class="logo__text">Med<span>Flow</span></span>
+      </div>
+
+      <div class="lang">
+        <button type="button" class="lang__btn" id="lang-btn"
+                aria-haspopup="listbox" aria-expanded="false"
+                aria-label="Alterar idioma" data-i18n-aria="lang.aria">
+          <span data-icon="globe" data-size="18" aria-hidden="true"></span>
+          <span class="lang__code" id="lang-code">PT-BR</span>
+          <span data-icon="chevron-down" data-size="16" aria-hidden="true"></span>
+        </button>
+        <ul class="lang__menu" id="lang-menu" role="listbox" aria-label="Idiomas" hidden data-i18n-aria="lang.menu">
+          <li role="option" data-lang="pt-BR" aria-selected="true" tabindex="0">
+            Português (BR) <span data-icon="check" data-size="16" class="lang__check" aria-hidden="true"></span>
+          </li>
+          <li role="option" data-lang="en-US" aria-selected="false" tabindex="0">
+            English <span data-icon="check" data-size="16" class="lang__check" aria-hidden="true"></span>
+          </li>
+          <li role="option" data-lang="es-ES" aria-selected="false" tabindex="0">
+            Español <span data-icon="check" data-size="16" class="lang__check" aria-hidden="true"></span>
+          </li>
+        </ul>
+      </div>
+    </header>
+
+    <!-- Progresso -------------------------------------------------------- -->
+    <div class="app-progress" id="progress-wrap" hidden>
+      <div class="progress-steps">
+        <p class="progress-steps__label">
+          <strong id="progress-count">Etapa 1 de 4</strong>
+          <span id="progress-name">Identificação</span>
+        </p>
+        <div class="progress-steps__bar" id="progress-bar" role="progressbar"
+             aria-valuemin="1" aria-valuemax="4" aria-valuenow="1"
+             aria-label="Progresso do atendimento" data-i18n-aria="progress.aria">
+          <span class="progress-steps__seg"></span>
+          <span class="progress-steps__seg"></span>
+          <span class="progress-steps__seg"></span>
+          <span class="progress-steps__seg"></span>
+        </div>
+      </div>
+    </div>
+
+    <main id="main" tabindex="-1">
+
+      <!-- 1. Tela inicial --------------------------------------------- -->
+      <section class="screen" id="screen-home" aria-labelledby="home-title">
+        <div class="screen__body home">
+          <div class="home__hero">
+            <span class="home__badge">
+              <span data-icon="sparkles" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="home.badge">Recepção digital com IA</span>
+            </span>
+            <h1 class="h1" id="home-title" data-i18n="home.title">Olá! Vamos agilizar seu atendimento.</h1>
+            <p class="body-lg text-secondary" data-i18n="home.subtitle">
+              Informe seus dados e o motivo da visita. Nossa IA organiza as informações em
+              poucos minutos — e você fala com uma pessoa sempre que precisar.
+            </p>
+          </div>
+
+          <ul class="home__highlights">
+            <li>
+              <span class="home__icon" data-icon="clock" data-size="20" aria-hidden="true"></span>
+              <span>
+                <strong data-i18n="home.h1t">Leva cerca de 2 minutos</strong>
+                <span class="small text-secondary" data-i18n="home.h1s">Quatro etapas rápidas, uma por vez</span>
+              </span>
+            </li>
+            <li>
+              <span class="home__icon" data-icon="shield" data-size="20" aria-hidden="true"></span>
+              <span>
+                <strong data-i18n="home.h2t">Seus dados ficam seguros</strong>
+                <span class="small text-secondary" data-i18n="home.h2s">Usados somente neste atendimento</span>
+              </span>
+            </li>
+            <li>
+              <span class="home__icon" data-icon="user-check" data-size="20" aria-hidden="true"></span>
+              <span>
+                <strong data-i18n="home.h3t">Sempre há uma pessoa por perto</strong>
+                <span class="small text-secondary" data-i18n="home.h3s">Encaminhamos para a equipe quando necessário</span>
+              </span>
+            </li>
+          </ul>
+
+          <div class="screen__footer">
+            <button type="button" class="btn btn--primary btn--lg btn--block" id="btn-start">
+              <span data-i18n="home.cta">Começar atendimento</span>
+              <span data-icon="arrow-right" data-size="20" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn-link" data-open-help>
+              <span data-icon="help" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="common.help">Preciso de ajuda</span>
+            </button>
+            <p class="disclaimer small text-secondary">
+              <span data-icon="info" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="home.disclaimer">
+                A MedFlow não faz diagnósticos. A IA apenas coleta informações e orienta —
+                a decisão é sempre de um profissional de saúde.
+              </span>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. Identificação --------------------------------------------- -->
+      <section class="screen" id="screen-identificacao" aria-labelledby="id-title" hidden>
+        <div class="screen__body">
+          <header class="screen__head">
+            <h1 class="h2" id="id-title" data-i18n="id.title">Vamos nos conhecer</h1>
+            <p class="body text-secondary" data-i18n="id.subtitle">
+              Só o essencial para localizar seu cadastro. Nada além disso.
+            </p>
+          </header>
+
+          <form id="form-identificacao" novalidate>
+            <div class="field">
+              <label class="field__label" for="f-nome">
+                <span data-i18n="id.name">Nome completo</span>
+                <span class="field__req" aria-hidden="true">*</span>
+              </label>
+              <input class="input" id="f-nome" name="nome" type="text" autocomplete="name"
+                     placeholder="Ex.: João da Silva" data-i18n-placeholder="id.name_ph"
+                     aria-describedby="err-nome" />
+              <p class="field__error" id="err-nome" hidden>
+                <span data-icon="alert" data-size="16" aria-hidden="true"></span>
+                <span data-err-text></span>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="f-cpf">
+                <span data-i18n="id.cpf">CPF</span>
+                <span class="field__req" aria-hidden="true">*</span>
+              </label>
+              <input class="input" id="f-cpf" name="cpf" type="text" inputmode="numeric"
+                     autocomplete="off" maxlength="14"
+                     placeholder="000.000.000-00" data-i18n-placeholder="id.cpf_ph"
+                     aria-describedby="help-cpf err-cpf" />
+              <p class="field__help" id="help-cpf" data-i18n="id.cpf_help">Digite apenas números.</p>
+              <p class="field__error" id="err-cpf" hidden>
+                <span data-icon="alert" data-size="16" aria-hidden="true"></span>
+                <span data-err-text></span>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="f-nascimento">
+                <span data-i18n="id.birth">Data de nascimento</span>
+                <span class="field__req" aria-hidden="true">*</span>
+              </label>
+              <input class="input" id="f-nascimento" name="nascimento" type="date"
+                     max="2026-12-31" autocomplete="bday"
+                     aria-describedby="help-nascimento err-nascimento" />
+              <p class="field__help" id="help-nascimento" data-i18n="id.birth_help">Formato dia, mês e ano.</p>
+              <p class="field__error" id="err-nascimento" hidden>
+                <span data-icon="alert" data-size="16" aria-hidden="true"></span>
+                <span data-err-text></span>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="f-telefone">
+                <span data-i18n="id.phone">Telefone</span>
+                <span class="field__req" aria-hidden="true">*</span>
+              </label>
+              <input class="input" id="f-telefone" name="telefone" type="tel" inputmode="tel"
+                     autocomplete="tel" maxlength="15"
+                     placeholder="(11) 90000-0000" data-i18n-placeholder="id.phone_ph"
+                     aria-describedby="help-telefone err-telefone" />
+              <p class="field__help" id="help-telefone" data-i18n="id.phone_help">
+                Com DDD. Usado apenas para confirmar seu atendimento.
+              </p>
+              <p class="field__error" id="err-telefone" hidden>
+                <span data-icon="alert" data-size="16" aria-hidden="true"></span>
+                <span data-err-text></span>
+              </p>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="f-convenio">
+                <span data-i18n="id.plan">Convênio</span>
+                <span class="field__req" aria-hidden="true">*</span>
+              </label>
+              <select class="select" id="f-convenio" name="convenio"
+                      aria-describedby="help-convenio err-convenio">
+                <option value="" data-i18n="id.plan_ph">Selecione seu convênio</option>
+              </select>
+              <p class="field__help" id="help-convenio" data-i18n="id.plan_help">
+                Se não souber, escolha “Não sei informar”.
+              </p>
+              <p class="field__error" id="err-convenio" hidden>
+                <span data-icon="alert" data-size="16" aria-hidden="true"></span>
+                <span data-err-text></span>
+              </p>
+            </div>
+
+            <p class="note" style="margin-top: var(--space-16);">
+              <span data-icon="lock" data-size="18" aria-hidden="true"></span>
+              <span data-i18n="id.privacy">Seus dados são usados somente para este atendimento.</span>
+            </p>
+          </form>
+
+          <div class="screen__footer">
+            <button type="submit" form="form-identificacao" class="btn btn--primary btn--block">
+              <span data-i18n="common.continue">Continuar</span>
+              <span data-icon="arrow-right" data-size="20" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn-link btn-link--subtle" data-goto="home">
+              <span data-icon="arrow-left" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="common.back">Voltar</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Motivo do atendimento -------------------------------------- -->
+      <section class="screen" id="screen-motivo" aria-labelledby="motivo-title" hidden>
+        <div class="screen__body">
+          <header class="screen__head">
+            <h1 class="h2" id="motivo-title" data-i18n="reason.title">O que você precisa hoje?</h1>
+            <p class="body text-secondary" data-i18n="reason.subtitle">
+              Escolha uma opção. Você poderá detalhar na próxima etapa.
+            </p>
+          </header>
+
+          <div class="reason-grid" role="group" aria-labelledby="motivo-title" id="reason-grid">
+            <button type="button" class="reason-card" data-reason="consulta" aria-pressed="false">
+              <span class="reason-card__icon" data-icon="stethoscope" data-size="24" aria-hidden="true"></span>
+              <span class="reason-card__label" data-i18n="reason.consulta">Consulta</span>
+              <span class="reason-card__hint small text-secondary" data-i18n="reason.consulta_hint">Primeira vez ou retorno</span>
+            </button>
+            <button type="button" class="reason-card" data-reason="exame" aria-pressed="false">
+              <span class="reason-card__icon" data-icon="flask" data-size="24" aria-hidden="true"></span>
+              <span class="reason-card__label" data-i18n="reason.exame">Exame</span>
+              <span class="reason-card__hint small text-secondary" data-i18n="reason.exame_hint">Sangue, imagem ou outro</span>
+            </button>
+            <button type="button" class="reason-card" data-reason="agendamento" aria-pressed="false">
+              <span class="reason-card__icon" data-icon="calendar" data-size="24" aria-hidden="true"></span>
+              <span class="reason-card__label" data-i18n="reason.agendamento">Agendamento</span>
+              <span class="reason-card__hint small text-secondary" data-i18n="reason.agendamento_hint">Marcar data e horário</span>
+            </button>
+            <button type="button" class="reason-card" data-reason="convenio" aria-pressed="false">
+              <span class="reason-card__icon" data-icon="credit-card" data-size="24" aria-hidden="true"></span>
+              <span class="reason-card__label" data-i18n="reason.convenio">Convênio</span>
+              <span class="reason-card__hint small text-secondary" data-i18n="reason.convenio_hint">Cobertura e carteirinha</span>
+            </button>
+            <button type="button" class="reason-card" data-reason="documentos" aria-pressed="false">
+              <span class="reason-card__icon" data-icon="file" data-size="24" aria-hidden="true"></span>
+              <span class="reason-card__label" data-i18n="reason.documentos">Documentos</span>
+              <span class="reason-card__hint small text-secondary" data-i18n="reason.documentos_hint">Pedido, RG, cartão</span>
+            </button>
+            <button type="button" class="reason-card" data-reason="outro" aria-pressed="false">
+              <span class="reason-card__icon" data-icon="message-circle" data-size="24" aria-hidden="true"></span>
+              <span class="reason-card__label" data-i18n="reason.outro">Outro</span>
+              <span class="reason-card__hint small text-secondary" data-i18n="reason.outro_hint">Conte para a gente</span>
+            </button>
+          </div>
+
+          <div class="screen__footer">
+            <button type="button" class="btn btn--primary btn--block" id="btn-reason-continue" disabled>
+              <span data-i18n="common.continue">Continuar</span>
+              <span data-icon="arrow-right" data-size="20" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn-link btn-link--subtle" data-goto="identificacao">
+              <span data-icon="arrow-left" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="common.back">Voltar</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Atendimento com IA ------------------------------------------ -->
+      <section class="screen screen--chat" id="screen-chat" aria-labelledby="chat-title" hidden>
+        <div class="screen__body">
+          <h1 class="visually-hidden" id="chat-title" data-i18n="chat.title">Atendimento com a IA</h1>
+
+          <header class="screen__head screen__head--chat">
+            <div class="context-chip">
+              <span class="context-chip__label small text-secondary" data-i18n="chat.motivo_label">Motivo</span>
+              <strong id="chat-motivo" class="context-chip__value">—</strong>
+              <button type="button" class="kv__edit" data-goto="motivo" data-i18n="chat.change">Alterar</button>
+            </div>
+            <p class="note">
+              <span data-icon="sparkles" data-size="18" aria-hidden="true"></span>
+              <span data-i18n="chat.disclaimer">
+                A IA coleta informações e orienta. Ela não faz diagnóstico nem substitui um profissional.
+              </span>
+            </p>
+          </header>
+
+          <div class="chat-log" id="chat-log" role="log" aria-live="polite" aria-relevant="additions"></div>
+
+          <form class="chat-input" id="chat-form" hidden>
+            <label class="visually-hidden" for="chat-text" data-i18n="chat.placeholder">Escreva sua resposta</label>
+            <input class="input" id="chat-text" type="text" autocomplete="off"
+                   placeholder="Escreva sua resposta" data-i18n-placeholder="chat.placeholder" />
+            <button type="submit" class="btn-icon chat-input__send" aria-label="Enviar" data-i18n-aria="chat.send">
+              <span data-icon="send" data-size="20" aria-hidden="true"></span>
+            </button>
+          </form>
+
+          <div class="screen__footer screen__footer--chat">
+            <button type="button" class="btn-link btn-link--subtle" id="btn-human">
+              <span data-icon="user" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="chat.human">Prefere falar com uma pessoa? Peça atendimento humano</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Encaminhamento ------------------------------------------------ -->
+      <section class="screen" id="screen-encaminhamento" aria-labelledby="esc-title" hidden>
+        <div class="screen__body">
+          <div class="esc-card card card--lg">
+            <span class="esc-card__icon" data-icon="user-check" data-size="26" aria-hidden="true"></span>
+            <h1 class="h2" id="esc-title" data-i18n="esc.default_title">
+              Não conseguimos confirmar essa informação.
+            </h1>
+            <p class="body text-secondary" data-i18n="esc.body">
+              Vamos encaminhar seu atendimento para nossa equipe. Você não precisa repetir nada:
+              já levamos seus dados e a conversa.
+            </p>
+
+            <dl class="kv esc-card__data">
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="esc.number">Número do atendimento</dt>
+                <dd class="kv__value" id="esc-number">—</dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="esc.motivo">Motivo</dt>
+                <dd class="kv__value" id="esc-motivo">—</dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="esc.status">Status</dt>
+                <dd class="kv__value">
+                  <span class="badge badge--amber">
+                    <span data-icon="clock" data-size="14" aria-hidden="true"></span>
+                    <span data-i18n="esc.status_value">Aguardando atendimento</span>
+                  </span>
+                </dd>
+              </div>
+              <div class="kv__row" id="esc-eta-row" hidden>
+                <dt class="kv__label" data-i18n="esc.eta">Tempo estimado</dt>
+                <dd class="kv__value" id="esc-eta">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="card" style="margin-top: var(--space-16);">
+            <h2 class="h3" data-i18n="esc.now_title">O que acontece agora</h2>
+            <ol class="steps" style="margin-top: var(--space-12);">
+              <li>
+                <span class="steps__num" aria-hidden="true">1</span>
+                <span data-i18n="esc.now_1">Enviamos seus dados e a conversa para a recepção.</span>
+              </li>
+              <li>
+                <span class="steps__num" aria-hidden="true">2</span>
+                <span data-i18n="esc.now_2">Um funcionário assume seu atendimento.</span>
+              </li>
+              <li>
+                <span class="steps__num" aria-hidden="true">3</span>
+                <span data-i18n="esc.now_3">Você será chamado — não precisa ficar em fila.</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="screen__footer">
+            <button type="button" class="btn btn--primary btn--block" data-goto="resumo">
+              <span data-i18n="esc.continue">Revisar e confirmar</span>
+              <span data-icon="arrow-right" data-size="20" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn-link" data-open-help>
+              <span data-icon="help" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="common.help">Preciso de ajuda</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Resumo do atendimento ----------------------------------------- -->
+      <section class="screen" id="screen-resumo" aria-labelledby="sum-title" hidden>
+        <div class="screen__body">
+          <header class="screen__head">
+            <h1 class="h2" id="sum-title" data-i18n="sum.title">Revise as informações</h1>
+            <p class="body text-secondary" data-i18n="sum.subtitle">
+              Confira se está tudo certo. Você pode corrigir qualquer dado antes de enviar.
+            </p>
+          </header>
+
+          <div class="card card--lg">
+            <dl class="kv">
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="sum.patient">Paciente</dt>
+                <dd class="kv__value">
+                  <span id="sum-nome">—</span>
+                  <button type="button" class="kv__edit" data-edit="identificacao" data-i18n="sum.edit">Editar</button>
+                </dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="sum.motivo">Motivo</dt>
+                <dd class="kv__value">
+                  <span id="sum-motivo">—</span>
+                  <button type="button" class="kv__edit" data-edit="motivo" data-i18n="sum.edit">Editar</button>
+                </dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="sum.convenio">Convênio</dt>
+                <dd class="kv__value">
+                  <span id="sum-convenio">—</span>
+                  <button type="button" class="kv__edit" data-edit="identificacao" data-i18n="sum.edit">Editar</button>
+                </dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="sum.docs">Documentos</dt>
+                <dd class="kv__value">
+                  <span id="sum-docs">—</span>
+                  <button type="button" class="kv__edit" data-edit="chat" data-i18n="sum.edit">Editar</button>
+                </dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="sum.status">Status</dt>
+                <dd class="kv__value">
+                  <span class="badge badge--amber">
+                    <span data-icon="clock" data-size="14" aria-hidden="true"></span>
+                    <span data-i18n="sum.status_value">Aguardando recepção</span>
+                  </span>
+                </dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="screen__footer">
+            <button type="button" class="btn btn--primary btn--block btn--lg" id="btn-confirm">
+              <span data-i18n="sum.confirm">Confirmar informações</span>
+              <span data-icon="check" data-size="20" aria-hidden="true"></span>
+            </button>
+            <button type="button" class="btn-link btn-link--subtle" data-goto="chat">
+              <span data-icon="arrow-left" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="sum.back_chat">Voltar à conversa</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Confirmação ----------------------------------------------------- -->
+      <section class="screen" id="screen-sucesso" aria-labelledby="ok-title" hidden>
+        <div class="screen__body">
+          <div class="ok">
+            <span class="ok__icon" aria-hidden="true">
+              <span data-icon="check" data-size="34"></span>
+            </span>
+            <h1 class="h2" id="ok-title" data-i18n="ok.title">Atendimento confirmado!</h1>
+            <p class="body text-secondary" id="ok-body">—</p>
+          </div>
+
+          <div class="card card--lg">
+            <dl class="kv">
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="esc.number">Número do atendimento</dt>
+                <dd class="kv__value" id="ok-number">—</dd>
+              </div>
+              <div class="kv__row">
+                <dt class="kv__label" data-i18n="sum.status">Status</dt>
+                <dd class="kv__value">
+                  <span class="badge badge--amber">
+                    <span data-icon="clock" data-size="14" aria-hidden="true"></span>
+                    <span data-i18n="sum.status_value">Aguardando recepção</span>
+                  </span>
+                </dd>
+              </div>
+              <div class="kv__row" id="ok-eta-row" hidden>
+                <dt class="kv__label" data-i18n="esc.eta">Tempo estimado</dt>
+                <dd class="kv__value" id="ok-eta">—</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="card" style="margin-top: var(--space-16);">
+            <h2 class="h3" data-i18n="ok.next_title">O que acontece agora</h2>
+            <ol class="steps" style="margin-top: var(--space-12);">
+              <li>
+                <span class="steps__num" aria-hidden="true">1</span>
+                <span data-i18n="ok.next_1">Fique perto da recepção — você será chamado pelo nome.</span>
+              </li>
+              <li>
+                <span class="steps__num" aria-hidden="true">2</span>
+                <span data-i18n="ok.next_2">Guarde o número do atendimento para acompanhar.</span>
+              </li>
+              <li>
+                <span class="steps__num" aria-hidden="true">3</span>
+                <span data-i18n="ok.next_3">Dúvidas? Toque em “Preciso de ajuda”.</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="screen__footer">
+            <button type="button" class="btn btn--secondary btn--block" id="btn-restart">
+              <span data-icon="refresh" data-size="20" aria-hidden="true"></span>
+              <span data-i18n="ok.restart">Voltar ao início</span>
+            </button>
+            <button type="button" class="btn-link" data-open-help>
+              <span data-icon="help" data-size="16" aria-hidden="true"></span>
+              <span data-i18n="common.help">Preciso de ajuda</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Modal de ajuda ---------------------------------------------------- -->
+    <div class="modal" id="help-modal" hidden role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <div class="modal__backdrop" data-close-help></div>
+      <div class="modal__panel">
+        <div class="modal__head">
+          <div>
+            <h2 class="modal__title" id="help-title" data-i18n="help.title">Como podemos ajudar?</h2>
+            <p class="modal__desc" data-i18n="help.desc">Se estiver com dificuldades, escolha uma opção:</p>
+          </div>
+          <button type="button" class="btn-icon" data-close-help aria-label="Fechar" data-i18n-aria="common.close">
+            <span data-icon="close" data-size="20" aria-hidden="true"></span>
+          </button>
+        </div>
+
+        <div class="stack-8">
+          <button type="button" class="option" id="help-call">
+            <span class="option__icon" data-icon="bell" data-size="18" aria-hidden="true"></span>
+            <span class="option__text">
+              <span data-i18n="help.opt1">Chamar um funcionário</span>
+              <span class="option__hint" data-i18n="help.opt1_hint">Avisamos a recepção para vir até você</span>
+            </span>
+          </button>
+          <button type="button" class="option" id="help-phone">
+            <span class="option__icon" data-icon="phone" data-size="18" aria-hidden="true"></span>
+            <span class="option__text">
+              <span data-i18n="help.opt2">Ligar para a recepção</span>
+              <span class="option__hint">(11) 3333-1000</span>
+            </span>
+          </button>
+          <button type="button" class="option" id="help-privacy">
+            <span class="option__icon" data-icon="lock" data-size="18" aria-hidden="true"></span>
+            <span class="option__text">
+              <span data-i18n="help.opt3">O que acontece com meus dados?</span>
+              <span class="option__hint" data-i18n="help.opt3_hint">Entenda em uma frase</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="modal__actions">
+          <button type="button" class="btn btn--secondary btn--block" data-close-help>
+            <span data-i18n="common.close">Fechar</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toasts ------------------------------------------------------------ -->
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="false"></div>
+  </div>
+
+  <script src="assets/js/icons.js"></script>
+  <script src="assets/js/i18n.js"></script>
+  <script src="assets/js/store.js"></script>
+  <script src="assets/js/patient.js"></script>
+</body>
+</html>

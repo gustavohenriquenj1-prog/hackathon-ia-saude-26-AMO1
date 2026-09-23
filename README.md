@@ -1,1 +1,0 @@
-# hackathon-ia-saude-26-AMO1

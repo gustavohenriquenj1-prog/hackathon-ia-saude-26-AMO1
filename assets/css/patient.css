@@ -1,0 +1,457 @@
+/* ==========================================================================
+   MedFlow — Experiência do paciente (mobile-first)
+   Uma tarefa por tela, muito espaço em branco e próximo passo sempre claro.
+   ========================================================================== */
+
+.patient-body {
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.patient-app {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--shell-width);
+  min-height: 100vh;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--color-surface);
+}
+
+/* Em telas médias/grandes, o app aparece como uma "janela" centralizada */
+@media (min-width: 640px) {
+  .patient-body { padding: var(--space-32) var(--space-16); }
+
+  .patient-app {
+    min-height: calc(100dvh - 64px);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-shell);
+    overflow: clip;
+  }
+}
+
+/* Títulos proporcionais dentro do app do paciente */
+.patient-app {
+  --text-h1: 27px;
+  --text-h2: 22px;
+  --text-h3: 19px;
+}
+
+/* --- Cabeçalho ----------------------------------------------------------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding: var(--space-16) var(--space-24);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Seletor de idioma */
+.lang { position: relative; }
+
+.lang__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 40px;
+  padding: 0 var(--space-12);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-full);
+  color: var(--color-dark);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  transition: border-color var(--transition), background-color var(--transition);
+}
+
+.lang__btn:hover { border-color: var(--color-primary); background: var(--color-primary-soft); }
+.lang__btn svg { width: 16px; height: 16px; }
+
+.lang__menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  min-width: 200px;
+  padding: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-pop);
+  animation: mf-pop var(--transition-slow);
+}
+
+.lang__menu[hidden] { display: none; }
+
+.lang__menu li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-8);
+  min-height: 44px;
+  padding: 0 var(--space-12);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-body);
+  cursor: pointer;
+  list-style: none;
+}
+
+.lang__menu li:hover { background: var(--color-neutral-soft); }
+.lang__menu li[aria-selected="true"] { background: var(--color-primary-soft); color: var(--color-info-text); font-weight: var(--weight-semibold); }
+.lang__menu li:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: -2px; }
+.lang__check { visibility: hidden; color: var(--color-primary); }
+.lang__menu li[aria-selected="true"] .lang__check { visibility: visible; }
+
+/* --- Progresso ----------------------------------------------------------- */
+.app-progress {
+  padding: var(--space-16) var(--space-24) 0;
+}
+
+.app-progress[hidden] { display: none; }
+
+/* --- Telas --------------------------------------------------------------- */
+.screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.screen[hidden] { display: none; }
+
+.screen__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-24);
+  animation: mf-screen-in var(--transition-slow);
+}
+
+.screen__head { margin-bottom: var(--space-24); }
+.screen__head .h2 + p { margin-top: var(--space-8); }
+.screen__head--chat { margin-bottom: var(--space-16); }
+
+/* Rodapé com ação principal — sempre visível (sticky) */
+.screen__footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+  margin-top: auto;
+  padding: var(--space-16) 0 calc(var(--space-8) + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, var(--color-surface) 34%);
+}
+
+.screen__footer .btn--block { width: 100%; }
+
+/* --- 1. Tela inicial ------------------------------------------------------ */
+.home { gap: var(--space-24); }
+
+.home__hero { padding-top: var(--space-8); }
+
+.home__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--space-16);
+  padding: 6px 12px;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-info-border);
+  border-radius: var(--radius-full);
+  color: var(--color-info-text);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+}
+
+.home__hero .h1 { margin-bottom: var(--space-12); }
+
+.home__highlights {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-16);
+  padding: var(--space-20, 20px) var(--space-20, 20px);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.home__highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+}
+
+.home__highlights strong { display: block; font-size: var(--text-body); font-weight: var(--weight-semibold); }
+.home__highlights .small { display: block; }
+
+.home__icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+}
+
+.home__icon svg { width: 18px; height: 18px; }
+
+.disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  text-align: left;
+  line-height: 1.45;
+}
+
+.disclaimer svg { width: 16px; height: 16px; flex: none; margin-top: 3px; }
+
+/* --- 3. Cards de motivo ---------------------------------------------------- */
+.reason-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-12);
+}
+
+@media (max-width: 340px) {
+  .reason-grid { grid-template-columns: 1fr; }
+}
+
+.reason-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  min-height: 132px;
+  padding: var(--space-16);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  text-align: left;
+  transition: border-color var(--transition), background-color var(--transition),
+    box-shadow var(--transition), transform var(--transition);
+}
+
+.reason-card:hover {
+  border-color: var(--color-primary-soft-border);
+  box-shadow: var(--shadow-raised);
+  transform: translateY(-1px);
+}
+
+.reason-card__icon {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: var(--space-4);
+  background: var(--color-primary-soft);
+  border-radius: var(--radius-sm);
+  color: var(--color-primary);
+}
+
+.reason-card__icon svg { width: 22px; height: 22px; }
+
+.reason-card__label {
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.reason-card__hint { line-height: 1.35; }
+
+.reason-card[aria-pressed="true"] {
+  border-color: var(--color-primary);
+  background: var(--color-primary-soft);
+  box-shadow: inset 0 0 0 1px var(--color-primary);
+}
+
+.reason-card[aria-pressed="true"] .reason-card__icon {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* --- 4. Chat --------------------------------------------------------------- */
+.screen--chat .screen__body { padding-bottom: var(--space-8); }
+
+.context-chip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-12);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-12);
+}
+
+.context-chip__label { text-transform: uppercase; letter-spacing: 0.04em; font-size: var(--text-micro); }
+.context-chip__value { font-size: var(--text-small); font-weight: var(--weight-bold); }
+.context-chip .kv__edit { margin-left: auto; }
+
+.chat-log { padding-bottom: var(--space-8); }
+
+.chat-log .quick-replies { padding-left: calc(36px + var(--space-8)); }
+
+.chat-log .msg__avatar { width: 36px; height: 36px; }
+
+.chat-log .msg__avatar svg { width: 18px; height: 18px; }
+
+.quick-replies .quick-reply--primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.quick-replies .quick-reply--primary:hover {
+  background: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #fff;
+}
+
+/* Mensagem de sistema (encaminhamento dentro do chat) */
+.sys-msg {
+  display: flex;
+  gap: var(--space-8);
+  align-items: flex-start;
+  padding: var(--space-12) var(--space-16);
+  background: var(--color-alert-soft);
+  border: 1px solid var(--color-alert-border);
+  border-radius: var(--radius-md);
+  color: var(--color-alert-text);
+  font-size: var(--text-small);
+}
+
+.sys-msg svg { width: 18px; height: 18px; flex: none; margin-top: 2px; }
+
+/* Entrada de texto */
+.chat-input {
+  position: sticky;
+  bottom: calc(56px + env(safe-area-inset-bottom));
+  display: flex;
+  gap: var(--space-8);
+  align-items: center;
+  padding: var(--space-12) 0 var(--space-8);
+  background: var(--color-surface);
+}
+
+.chat-input[hidden] { display: none; }
+
+.chat-input .input { flex: 1; min-height: 48px; }
+
+.chat-input__send {
+  width: 48px;
+  height: 48px;
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.chat-input__send:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); }
+
+.chat-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-8) 0;
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+.screen__footer--chat { padding-top: var(--space-4); }
+
+/* --- 5. Encaminhamento ------------------------------------------------------ */
+.esc-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.esc-card__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--space-16);
+  background: var(--color-alert-soft-strong);
+  border: 1px solid var(--color-alert-border);
+  border-radius: var(--radius-full);
+  color: var(--color-alert-text);
+}
+
+.esc-card__data {
+  margin-top: var(--space-16);
+  padding-top: var(--space-8);
+  border-top: 1px dashed var(--color-border-strong);
+}
+
+/* Passos numerados ("o que acontece agora") */
+.steps { display: flex; flex-direction: column; gap: var(--space-12); }
+
+.steps li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-12);
+  font-size: var(--text-small);
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.steps__num {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  flex: none;
+  background: var(--color-primary-soft);
+  border: 1px solid var(--color-info-border);
+  border-radius: var(--radius-full);
+  color: var(--color-info-text);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-bold);
+}
+
+/* --- 7. Sucesso -------------------------------------------------------------- */
+.ok {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-12);
+  text-align: center;
+  padding: var(--space-8) 0 var(--space-24);
+}
+
+.ok__icon {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  background: var(--color-support-soft);
+  border: 2px solid var(--color-support-border);
+  border-radius: var(--radius-full);
+  color: var(--color-support-text);
+  animation: mf-pop var(--transition-slow);
+}
+
+/* --- Ajustes de formulário ---------------------------------------------------- */
+#form-identificacao { padding-bottom: var(--space-8); }
+
+.input[type="date"] {
+  /* mantém altura mínima de 48px em navegadores móveis */
+  min-height: 48px;
+}
+
+/* Esconde a opção vazia depois da escolha (mantém label visível) */
+.select.has-value option[value=""] { display: none; }
